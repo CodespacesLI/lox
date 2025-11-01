@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+OUT_DIR="out"
+CMD="${1:-build}"
+
+case "$CMD" in
+  clean)
+    echo "🧹 Cleaning $OUT_DIR"
+    rm -rf "$OUT_DIR"
+    ;;
+  
+  build)
+    echo "🔧 Compiling sources..."
+    mkdir -p "$OUT_DIR"
+    javac -d "$OUT_DIR" com/craftinginterpreters/lox/*.java
+    echo "✅ Build complete. Classes in $OUT_DIR"
+    ;;
+  
+  run)
+    echo "🚀 Building and running..."
+    mkdir -p "$OUT_DIR"
+    javac -d "$OUT_DIR" com/craftinginterpreters/lox/*.java
+    echo "✅ Build complete. Starting program..."
+    java -cp "$OUT_DIR" com.craftinginterpreters.lox.Lox
+    ;;
+  
+  *)
+    echo "❓ Unknown command: $CMD"
+    echo "Usage: andey [clean|build|run]"
+    exit 1
+    ;;
+esac
